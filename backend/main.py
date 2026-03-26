@@ -13,7 +13,7 @@ from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 from routers import connection, query, schema, history
 
-
+load_dotenv()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan handler for startup/shutdown events."""
@@ -32,9 +32,10 @@ app = FastAPI(
 # ---------------------------------------------------------------------------
 # CORS Middleware — allow the React dev server to call the API
 # ---------------------------------------------------------------------------
+allowed_origins =os.getenv("CORS_ALLOWED_ORIGINS")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

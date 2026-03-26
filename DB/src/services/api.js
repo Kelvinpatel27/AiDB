@@ -11,6 +11,7 @@ const api = axios.create({
   timeout: 60_000, // 60s for LLM calls
   headers: { 'Content-Type': 'application/json' },
 })
+console.log('API base URL:', api.defaults.baseURL)
 
 // ─── Response interceptor: unwrap data or throw normalised error ──────────────
 api.interceptors.response.use(
