@@ -6,15 +6,8 @@ import tailwindcss from '@tailwindcss/vite'
 // export default defineConfig({
 //   plugins: [react(),tailwindcss(),],
 // })
+// const env = loadEnv(mode, process.cwd())
+// api=import.meta.env.VITE_API_URL
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  server: {
-    port: 5173,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-      },
-    },
-  },
 })

@@ -7,7 +7,7 @@ import axios from 'axios'
 
 // Base URL — proxied via Vite in dev, relative in prod
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL,
   timeout: 60_000, // 60s for LLM calls
   headers: { 'Content-Type': 'application/json' },
 })

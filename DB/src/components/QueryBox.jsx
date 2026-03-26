@@ -5,7 +5,6 @@
 import { useState } from 'react'
 import { Sparkles, Send, Loader2 } from 'lucide-react'
 import { generateSQL } from '../services/api'
-console.log('API URL:', generateSQL)
 
 const EXAMPLES = [
   'Show all users created this month',
