@@ -32,7 +32,8 @@ app = FastAPI(
 # ---------------------------------------------------------------------------
 # CORS Middleware — allow the React dev server to call the API
 # ---------------------------------------------------------------------------
-allowed_origins =os.getenv("CORS_ALLOWED_ORIGINS")
+allowed_origins = os.getenv("allowed_origins", "").split(",")
+print("Allowed CORS origins:", allowed_origins)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
