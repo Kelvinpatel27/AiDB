@@ -14,6 +14,23 @@ from dotenv import load_dotenv
 from routers import connection, query, schema, history
 
 load_dotenv()
+
+
+def _get_allowed_origins() -> list[str]:
+    """Read CORS origins from env using either lower or upper-case key."""
+    raw = os.getenv("allowed_origins") or os.getenv("ALLOWED_ORIGINS") or ""
+    origins = [origin.strip() for origin in raw.split(",") if origin.strip()]
+
+    # Safe fallbacks for local dev and the deployed frontend if env is missing.
+    if not origins:
+        origins = [
+            "http://localhost:5173",
+            "https://ai-db-ecru.vercel.app",
+        ]
+
+    return origins
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan handler for startup/shutdown events."""
@@ -32,11 +49,12 @@ app = FastAPI(
 # ---------------------------------------------------------------------------
 # CORS Middleware — allow the React dev server to call the API
 # ---------------------------------------------------------------------------
-allowed_origins = os.getenv("allowed_origins", "").split(",")
+allowed_origins = _get_allowed_origins()
 print("Allowed CORS origins:", allowed_origins)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
