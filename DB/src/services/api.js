@@ -5,9 +5,15 @@
 
 import axios from 'axios'
 
-// Base URL — proxied via Vite in dev, relative in prod
+// In production, always use same-origin /api and let Vercel rewrite to Railway.
+// This avoids client DNS issues resolving Railway hostnames on some networks.
+const baseURL = import.meta.env.PROD
+  ? '/api'
+  : import.meta.env.VITE_API_URL || '/api'
+
+// Base URL — configurable in dev, same-origin in prod
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL,
   timeout: 60_000, // 60s for LLM calls
   headers: { 'Content-Type': 'application/json' },
 })
